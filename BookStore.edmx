@@ -1,0 +1,154 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="BookProjectModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BookInfo">
+          <Key>
+            <PropertyRef Name="BookID" />
+          </Key>
+          <Property Name="BookID" Type="bigint" Nullable="false" />
+          <Property Name="Author" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="YearReleased" Type="date" />
+          <Property Name="ISBN" Type="int" />
+          <Property Name="BookPrice" Type="money" />
+        </EntityType>
+        <EntityType Name="Movies">
+          <Key>
+            <PropertyRef Name="MovieID" />
+          </Key>
+          <Property Name="MovieID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MovieName" Type="nvarchar(max)" />
+          <Property Name="Actor" Type="nvarchar(max)" />
+          <Property Name="Actress" Type="nvarchar(max)" />
+          <Property Name="ReleaseDate" Type="datetime" Nullable="false" />
+          <Property Name="Country" Type="nvarchar(max)" />
+          <Property Name="Language" Type="nvarchar(max)" />
+          <Property Name="Movie_MovieID" Type="int" />
+        </EntityType>
+        <Association Name="FK_dbo_Movies_dbo_Movies_Movie_MovieID">
+          <End Role="Movies" Type="Self.Movies" Multiplicity="0..1" />
+          <End Role="Movies1" Type="Self.Movies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Movies">
+              <PropertyRef Name="MovieID" />
+            </Principal>
+            <Dependent Role="Movies1">
+              <PropertyRef Name="Movie_MovieID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BookProjectModelStoreContainer">
+          <EntitySet Name="BookInfo" EntityType="Self.BookInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Movies" EntityType="Self.Movies" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_dbo_Movies_dbo_Movies_Movie_MovieID" Association="Self.FK_dbo_Movies_dbo_Movies_Movie_MovieID">
+            <End Role="Movies" EntitySet="Movies" />
+            <End Role="Movies1" EntitySet="Movies" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BookProjectModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="BookInfo">
+          <Key>
+            <PropertyRef Name="BookID" />
+          </Key>
+          <Property Name="BookID" Type="Int64" Nullable="false" />
+          <Property Name="Author" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="YearReleased" Type="DateTime" Precision="0" />
+          <Property Name="ISBN" Type="Int32" />
+          <Property Name="BookPrice" Type="Decimal" Precision="19" Scale="4" />
+        </EntityType>
+        <EntityType Name="Movies">
+          <Key>
+            <PropertyRef Name="MovieID" />
+          </Key>
+          <Property Name="MovieID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MovieName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Actor" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Actress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ReleaseDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Country" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Language" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Movies1" Relationship="Self.FK_dbo_Movies_dbo_Movies_Movie_MovieID" FromRole="Movies" ToRole="Movies1" />
+          <NavigationProperty Name="Movies2" Relationship="Self.FK_dbo_Movies_dbo_Movies_Movie_MovieID" FromRole="Movies1" ToRole="Movies" />
+        </EntityType>
+        <Association Name="FK_dbo_Movies_dbo_Movies_Movie_MovieID">
+          <End Role="Movies" Type="Self.Movies" Multiplicity="0..1" />
+          <End Role="Movies1" Type="Self.Movies" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="BookStoreContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="BookInfo" EntityType="Self.BookInfo" />
+          <EntitySet Name="Movies" EntityType="Self.Movies" />
+          <AssociationSet Name="FK_dbo_Movies_dbo_Movies_Movie_MovieID" Association="Self.FK_dbo_Movies_dbo_Movies_Movie_MovieID">
+            <End Role="Movies" EntitySet="Movies" />
+            <End Role="Movies1" EntitySet="Movies" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BookProjectModelStoreContainer" CdmEntityContainer="BookStoreContext">
+          <EntitySetMapping Name="BookInfo">
+            <EntityTypeMapping TypeName="BookProjectModel.BookInfo">
+              <MappingFragment StoreEntitySet="BookInfo">
+                <ScalarProperty Name="BookID" ColumnName="BookID" />
+                <ScalarProperty Name="Author" ColumnName="Author" />
+                <ScalarProperty Name="YearReleased" ColumnName="YearReleased" />
+                <ScalarProperty Name="ISBN" ColumnName="ISBN" />
+                <ScalarProperty Name="BookPrice" ColumnName="BookPrice" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Movies">
+            <EntityTypeMapping TypeName="BookProjectModel.Movies">
+              <MappingFragment StoreEntitySet="Movies">
+                <ScalarProperty Name="MovieID" ColumnName="MovieID" />
+                <ScalarProperty Name="MovieName" ColumnName="MovieName" />
+                <ScalarProperty Name="Actor" ColumnName="Actor" />
+                <ScalarProperty Name="Actress" ColumnName="Actress" />
+                <ScalarProperty Name="ReleaseDate" ColumnName="ReleaseDate" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="Language" ColumnName="Language" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="FK_dbo_Movies_dbo_Movies_Movie_MovieID" TypeName="BookProjectModel.FK_dbo_Movies_dbo_Movies_Movie_MovieID" StoreEntitySet="Movies">
+            <EndProperty Name="Movies">
+              <ScalarProperty Name="MovieID" ColumnName="Movie_MovieID" />
+            </EndProperty>
+            <EndProperty Name="Movies1">
+              <ScalarProperty Name="MovieID" ColumnName="MovieID" />
+            </EndProperty>
+            <Condition IsNull="false" ColumnName="Movie_MovieID" />
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="false" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
